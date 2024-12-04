@@ -27,6 +27,16 @@ const ProductCard: FC<ProductCardProps> = ({ product, onClick }) => {
         <Typography variant="body2" color="text.secondary" noWrap marginTop="5px">
           {product.description}
         </Typography>
+        <Typography
+          variant="body2"
+          color="text.secondary"
+          noWrap
+          marginTop="10px"
+          fontWeight="bold"
+          textAlign="right"
+        >
+          {product.price + " $"}
+        </Typography>
       </CardContent>
       <Box
         sx={{

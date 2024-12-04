@@ -24,6 +24,7 @@ const CreateProductPage = () => {
         title: "",
         description: "",
         image: "",
+        price: 0,
       }}
       onSubmit={handleSubmit}
       buttonText="Создать продукт"

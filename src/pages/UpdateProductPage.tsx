@@ -28,6 +28,7 @@ const UpdateProductPage = () => {
         title: product?.title || "",
         description: product?.description || "",
         image: product?.image || "",
+        price: product?.price || 0,
       }}
       onSubmit={handleSubmit}
       buttonText="Обновить продукт"

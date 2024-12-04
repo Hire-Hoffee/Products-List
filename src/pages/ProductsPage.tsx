@@ -46,6 +46,7 @@ const ProductsPage = () => {
         description: item.description,
         image: item.image,
         isLiked: false,
+        price: item.price,
       }));
       dispatch(setProducts(changedData));
     })();
@@ -71,7 +72,7 @@ const ProductsPage = () => {
         marginBottom: "20px",
       }}
     >
-      <Typography variant="h4" fontWeight={"bold"} textAlign={"center"} marginTop={"20px"}>
+      <Typography variant="h4" fontWeight="bold" textAlign="center" marginTop="20px">
         Список продуктов
       </Typography>
       <Box
@@ -108,10 +109,10 @@ const ProductsPage = () => {
         getOptionLabel={(option) => option.title}
         onChange={(_, value) => navigate(`/products/${value?.id}`)}
       />
-      <Grid container spacing={3} bgcolor={"#eee"} borderRadius={"10px"} paddingBottom={"20px"}>
+      <Grid container spacing={3} bgcolor="#eee" borderRadius="10px" paddingBottom="20px">
         {paginatedProducts.length === 0 ? (
           <Grid item xs={12}>
-            <Typography variant="h5" textAlign={"center"}>
+            <Typography variant="h5" textAlign="center">
               Нет продуктов
             </Typography>
           </Grid>

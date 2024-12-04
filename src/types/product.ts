@@ -4,6 +4,7 @@ export interface Product {
   description: string;
   image: string;
   isLiked: boolean;
+  price: number;
 }
 
 export interface FetchedProduct {
@@ -23,4 +24,5 @@ export interface initialFormValues {
   title: string;
   description: string;
   image: string;
+  price: number;
 }

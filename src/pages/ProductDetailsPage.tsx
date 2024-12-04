@@ -28,6 +28,7 @@ const ProductDetailsPage = () => {
         description: data.description,
         image: data.image,
         isLiked: false,
+        price: data.price,
       };
       dispatch(setSelectedProduct(changedData));
     })();
@@ -93,6 +94,9 @@ const ProductDetailsPage = () => {
         style={{ maxHeight: 400, marginBottom: 20 }}
       />
       <Typography variant="body1">{selectedProduct.description}</Typography>
+      <Typography width="100%" variant="body1" fontWeight="bold" fontSize="20px" textAlign="right">
+        {selectedProduct.price && selectedProduct.price + " $"}
+      </Typography>
     </Container>
   );
 };

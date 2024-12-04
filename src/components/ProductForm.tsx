@@ -57,6 +57,7 @@ const ProductForm = ({
           title: Yup.string().required("Название обязательно"),
           description: Yup.string().required("Описание обязательно"),
           image: Yup.string().url("Введите корректный URL").required("URL изображения обязателен"),
+          price: Yup.number().required("Цена обязательна"),
         })}
         onSubmit={(values, { resetForm }) => {
           onSubmit(values);
@@ -87,6 +88,11 @@ const ProductForm = ({
 
             <Field name="image" as={TextField} label="URL изображения" fullWidth margin="normal" />
             <ErrorMessage name="image" component="div">
+              {(msg) => <div style={{ color: "red" }}>{msg}</div>}
+            </ErrorMessage>
+
+            <Field name="price" as={TextField} label="Цена (USD)" fullWidth margin="normal" />
+            <ErrorMessage name="price" component="div">
               {(msg) => <div style={{ color: "red" }}>{msg}</div>}
             </ErrorMessage>
 
