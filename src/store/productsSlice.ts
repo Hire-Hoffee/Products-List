@@ -3,9 +3,10 @@ import { Product } from "../types/product";
 
 interface ProductsState {
   products: Product[];
-  selectedProduct?: Product;
+  selectedProduct: Product;
   filter: "all" | "liked";
-  shouldRefresh?: boolean;
+  shouldRefresh: boolean;
+  currentPage: number;
 }
 
 const initialState: ProductsState = {
@@ -13,6 +14,7 @@ const initialState: ProductsState = {
   filter: "all",
   shouldRefresh: true,
   selectedProduct: {} as Product,
+  currentPage: 1,
 };
 
 const productsSlice = createSlice({
@@ -53,6 +55,9 @@ const productsSlice = createSlice({
         return p;
       });
     },
+    setCurrentPage(state, action: PayloadAction<number>) {
+      state.currentPage = action.payload;
+    },
   },
 });
 
@@ -65,5 +70,6 @@ export const {
   setShouldRefresh,
   setSelectedProduct,
   updateProduct,
+  setCurrentPage,
 } = productsSlice.actions;
 export default productsSlice.reducer;
