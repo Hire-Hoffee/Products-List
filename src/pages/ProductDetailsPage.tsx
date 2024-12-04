@@ -3,7 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useAppSelector, useAppDispatch } from "../store/hooks";
 import { Container, Typography, Button, CardMedia, Box } from "@mui/material";
 import { setSelectedProduct } from "../store/productsSlice";
-import { setShouldRefresh } from "../store/utilsSlice";
+import { setShouldRefresh, setIsFetching } from "../store/utilsSlice";
 import { fetchOneProduct } from "../api";
 
 const ProductDetailsPage = () => {
@@ -11,6 +11,7 @@ const ProductDetailsPage = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { selectedProduct } = useAppSelector((state) => state.products);
+  const { isFetching } = useAppSelector((state) => state.utils);
   const existingProduct = useAppSelector((state) =>
     state.products.products.find((p) => p.id == Number(id))
   );
@@ -21,23 +22,41 @@ const ProductDetailsPage = () => {
       return;
     }
     (async () => {
-      const data = await fetchOneProduct(Number(id));
-      const changedData = {
-        id: data.id,
-        title: data.title,
-        description: data.description,
-        image: data.image,
-        isLiked: false,
-        price: data.price,
-      };
-      dispatch(setSelectedProduct(changedData));
+      try {
+        dispatch(setIsFetching(true));
+        const data = await fetchOneProduct(Number(id));
+        const changedData = {
+          id: data.id,
+          title: data.title,
+          description: data.description,
+          image: data.image,
+          isLiked: false,
+          price: data.price,
+        };
+        dispatch(setSelectedProduct(changedData));
+        dispatch(setIsFetching(false));
+      } catch (error) {
+        console.log("fetching error", error);
+        dispatch(setIsFetching(false));
+      }
     })();
   }, []);
 
   if (!selectedProduct) {
     return (
-      <Container>
-        <Typography variant="h5">Продукт не найден</Typography>
+      <Container
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          gap: "30px",
+          backgroundColor: "#eee",
+          borderRadius: "10px",
+          padding: "20px",
+          marginY: "50px",
+        }}
+      >
+        <Typography variant="h5">{isFetching ? "Загрузка..." : "Продукт не найден"}</Typography>
         <Button
           variant="contained"
           onClick={() => {

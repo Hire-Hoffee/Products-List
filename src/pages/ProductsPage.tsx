@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { setProducts, setFilter } from "../store/productsSlice";
-import { setShouldRefresh, setCurrentPage } from "../store/utilsSlice";
+import { setShouldRefresh, setCurrentPage, setIsFetching } from "../store/utilsSlice";
 import ProductCard from "../components/ProductCard";
 import { useNavigate } from "react-router-dom";
 import { FetchedProduct } from "../types/product";
@@ -21,7 +21,7 @@ const ProductsPage = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { products, filter } = useAppSelector((state) => state.products);
-  const { shouldRefresh, currentPage } = useAppSelector((state) => state.utils);
+  const { shouldRefresh, currentPage, isFetching } = useAppSelector((state) => state.utils);
   const itemsPerPage = 6;
 
   const handlePagination = (_: React.ChangeEvent<unknown>, page: number) => {
@@ -39,16 +39,23 @@ const ProductsPage = () => {
       return;
     }
     (async () => {
-      const data = await fetchProducts();
-      const changedData = data.map((item: FetchedProduct) => ({
-        id: item.id,
-        title: item.title,
-        description: item.description,
-        image: item.image,
-        isLiked: false,
-        price: item.price,
-      }));
-      dispatch(setProducts(changedData));
+      try {
+        dispatch(setIsFetching(true));
+        const data = await fetchProducts();
+        const changedData = data.map((item: FetchedProduct) => ({
+          id: item.id,
+          title: item.title,
+          description: item.description,
+          image: item.image,
+          isLiked: false,
+          price: item.price,
+        }));
+        dispatch(setProducts(changedData));
+        dispatch(setIsFetching(false));
+      } catch (error) {
+        console.log("fetching error", error);
+        dispatch(setIsFetching(false));
+      }
     })();
   }, []);
 
@@ -113,7 +120,7 @@ const ProductsPage = () => {
         {paginatedProducts.length === 0 ? (
           <Grid item xs={12}>
             <Typography variant="h5" textAlign="center">
-              Нет продуктов
+              {isFetching ? "Загрузка..." : "Нет продуктов"}
             </Typography>
           </Grid>
         ) : (

@@ -3,14 +3,14 @@ import { Product } from "../types/product";
 
 interface ProductsState {
   products: Product[];
-  selectedProduct: Product;
+  selectedProduct: Product | null;
   filter: "all" | "liked" | "alphabet";
 }
 
 const initialState: ProductsState = {
   products: [],
   filter: "all",
-  selectedProduct: {} as Product,
+  selectedProduct: null,
 };
 
 const productsSlice = createSlice({
