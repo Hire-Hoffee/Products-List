@@ -24,7 +24,7 @@ const ProductsPage = () => {
   const { shouldRefresh, currentPage } = useAppSelector((state) => state.utils);
   const itemsPerPage = 6;
 
-  const handlePagination = (e: React.ChangeEvent<unknown>, page: number) => {
+  const handlePagination = (_: React.ChangeEvent<unknown>, page: number) => {
     dispatch(setCurrentPage(page));
   };
 
@@ -106,7 +106,7 @@ const ProductsPage = () => {
         sx={{ width: "300px", marginBottom: "20px" }}
         renderInput={(params) => <TextField {...params} label="Поиск продукта..." />}
         getOptionLabel={(option) => option.title}
-        onChange={(e, value) => navigate(`/products/${value?.id}`)}
+        onChange={(_, value) => navigate(`/products/${value?.id}`)}
       />
       <Grid container spacing={3} bgcolor={"#eee"} borderRadius={"10px"} paddingBottom={"20px"}>
         {paginatedProducts.length === 0 ? (
