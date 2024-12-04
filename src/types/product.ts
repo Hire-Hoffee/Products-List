@@ -18,3 +18,9 @@ export interface FetchedProduct {
     count: number;
   };
 }
+
+export interface initialFormValues {
+  title: string;
+  description: string;
+  image: string;
+}

@@ -45,6 +45,14 @@ const productsSlice = createSlice({
     setSelectedProduct(state, action: PayloadAction<Product>) {
       state.selectedProduct = action.payload;
     },
+    updateProduct(state, action: PayloadAction<Product>) {
+      state.products = state.products.map((p) => {
+        if (p.id === action.payload.id) {
+          return action.payload;
+        }
+        return p;
+      });
+    },
   },
 });
 
@@ -56,5 +64,6 @@ export const {
   addProduct,
   setShouldRefresh,
   setSelectedProduct,
+  updateProduct,
 } = productsSlice.actions;
 export default productsSlice.reducer;

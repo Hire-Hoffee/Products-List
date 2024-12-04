@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useAppSelector, useAppDispatch } from "../store/hooks";
-import { Container, Typography, Button, CardMedia } from "@mui/material";
+import { Container, Typography, Button, CardMedia, Box } from "@mui/material";
 import { setShouldRefresh, setSelectedProduct } from "../store/productsSlice";
 import { fetchOneProduct } from "../api";
 
@@ -62,15 +62,26 @@ const ProductDetailsPage = () => {
         marginY: "50px",
       }}
     >
-      <Button
-        variant="contained"
-        onClick={() => {
-          dispatch(setShouldRefresh(false));
-          navigate("/products");
-        }}
-      >
-        Назад к списку
-      </Button>
+      <Box sx={{ display: "flex", gap: "20px" }}>
+        <Button
+          variant="contained"
+          onClick={() => {
+            dispatch(setShouldRefresh(false));
+            navigate("/products");
+          }}
+        >
+          Назад к списку
+        </Button>
+        <Button
+          variant="contained"
+          onClick={() => {
+            dispatch(setShouldRefresh(false));
+            navigate("/update-product/" + selectedProduct.id);
+          }}
+        >
+          Обновить продукт
+        </Button>
+      </Box>
       <Typography variant="h3" gutterBottom>
         {selectedProduct.title}
       </Typography>
