@@ -28,7 +28,7 @@ const ProductsPage = () => {
     dispatch(setCurrentPage(page));
   };
 
-  const handleFilter = (state: "all" | "liked") => {
+  const handleFilter = (state: "all" | "liked" | "alphabet") => {
     dispatch(setCurrentPage(1));
     dispatch(setFilter(state));
   };
@@ -52,7 +52,11 @@ const ProductsPage = () => {
   }, []);
 
   const filteredProducts =
-    filter === "liked" ? products.filter((product) => product.isLiked) : products;
+    filter === "liked"
+      ? products.filter((product) => product.isLiked)
+      : filter === "alphabet"
+      ? [...products].sort((a, b) => a.title.localeCompare(b.title))
+      : products;
 
   const startIndex = (currentPage - 1) * itemsPerPage;
   const paginatedProducts = filteredProducts.slice(startIndex, startIndex + itemsPerPage);
@@ -63,8 +67,8 @@ const ProductsPage = () => {
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        gap: "30px",
-        marginBottom: "30px",
+        gap: "20px",
+        marginBottom: "20px",
       }}
     >
       <Typography variant="h4" fontWeight={"bold"} textAlign={"center"} marginTop={"20px"}>
@@ -73,15 +77,25 @@ const ProductsPage = () => {
       <Box
         sx={{
           backgroundColor: "#eee",
-          padding: "10px",
+          paddingY: "10px",
           borderRadius: "10px",
-          width: "300px",
+          width: "310px",
           display: "flex",
-          justifyContent: "space-around",
+          flexDirection: "column",
+          alignItems: "center",
+          gap: "10px",
         }}
       >
-        <Button onClick={() => handleFilter("all")}>Все</Button>
-        <Button onClick={() => handleFilter("liked")}>Избранное</Button>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-around",
+          }}
+        >
+          <Button onClick={() => handleFilter("all")}>Все</Button>
+          <Button onClick={() => handleFilter("liked")}>Избранное</Button>
+          <Button onClick={() => handleFilter("alphabet")}>По алфавиту</Button>
+        </Box>
         <Button variant="contained" onClick={() => navigate("/create-product")}>
           Создать
         </Button>

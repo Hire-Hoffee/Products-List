@@ -4,7 +4,7 @@ import { Product } from "../types/product";
 interface ProductsState {
   products: Product[];
   selectedProduct: Product;
-  filter: "all" | "liked";
+  filter: "all" | "liked" | "alphabet";
 }
 
 const initialState: ProductsState = {
@@ -45,7 +45,7 @@ const productsSlice = createSlice({
         return p;
       });
     },
-    setFilter(state, action: PayloadAction<"all" | "liked">) {
+    setFilter(state, action: PayloadAction<"all" | "liked" | "alphabet">) {
       state.filter = action.payload;
     },
   },
