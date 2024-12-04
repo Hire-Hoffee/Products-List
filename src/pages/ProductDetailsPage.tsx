@@ -2,7 +2,8 @@ import { useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useAppSelector, useAppDispatch } from "../store/hooks";
 import { Container, Typography, Button, CardMedia, Box } from "@mui/material";
-import { setShouldRefresh, setSelectedProduct } from "../store/productsSlice";
+import { setSelectedProduct } from "../store/productsSlice";
+import { setShouldRefresh } from "../store/utilsSlice";
 import { fetchOneProduct } from "../api";
 
 const ProductDetailsPage = () => {

@@ -1,6 +1,7 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { useAppSelector, useAppDispatch } from "../store/hooks";
-import { updateProduct, setShouldRefresh } from "../store/productsSlice";
+import { updateProduct } from "../store/productsSlice";
+import { setShouldRefresh } from "../store/utilsSlice";
 import ProductForm from "../components/ProductForm";
 import { FormikHelpers } from "formik";
 import { initialFormValues } from "../types/product";

@@ -5,16 +5,12 @@ interface ProductsState {
   products: Product[];
   selectedProduct: Product;
   filter: "all" | "liked";
-  shouldRefresh: boolean;
-  currentPage: number;
 }
 
 const initialState: ProductsState = {
   products: [],
   filter: "all",
-  shouldRefresh: true,
   selectedProduct: {} as Product,
-  currentPage: 1,
 };
 
 const productsSlice = createSlice({
@@ -24,28 +20,8 @@ const productsSlice = createSlice({
     setProducts(state, action: PayloadAction<Product[]>) {
       state.products = action.payload;
     },
-    toggleLike(state, action: PayloadAction<number>) {
-      state.products = state.products.map((p) => {
-        if (p.id === action.payload) {
-          return { ...p, isLiked: !p.isLiked };
-        }
-        return p;
-      });
-    },
-    deleteProduct(state, action: PayloadAction<number>) {
-      state.products = state.products.filter((p) => p.id !== action.payload);
-    },
-    setFilter(state, action: PayloadAction<"all" | "liked">) {
-      state.filter = action.payload;
-    },
     addProduct(state, action: PayloadAction<Product>) {
       state.products = [...state.products, action.payload];
-    },
-    setShouldRefresh(state, action: PayloadAction<boolean>) {
-      state.shouldRefresh = action.payload;
-    },
-    setSelectedProduct(state, action: PayloadAction<Product>) {
-      state.selectedProduct = action.payload;
     },
     updateProduct(state, action: PayloadAction<Product>) {
       state.products = state.products.map((p) => {
@@ -55,8 +31,22 @@ const productsSlice = createSlice({
         return p;
       });
     },
-    setCurrentPage(state, action: PayloadAction<number>) {
-      state.currentPage = action.payload;
+    deleteProduct(state, action: PayloadAction<number>) {
+      state.products = state.products.filter((p) => p.id !== action.payload);
+    },
+    setSelectedProduct(state, action: PayloadAction<Product>) {
+      state.selectedProduct = action.payload;
+    },
+    toggleLike(state, action: PayloadAction<number>) {
+      state.products = state.products.map((p) => {
+        if (p.id === action.payload) {
+          return { ...p, isLiked: !p.isLiked };
+        }
+        return p;
+      });
+    },
+    setFilter(state, action: PayloadAction<"all" | "liked">) {
+      state.filter = action.payload;
     },
   },
 });
@@ -67,9 +57,7 @@ export const {
   deleteProduct,
   setFilter,
   addProduct,
-  setShouldRefresh,
   setSelectedProduct,
   updateProduct,
-  setCurrentPage,
 } = productsSlice.actions;
 export default productsSlice.reducer;

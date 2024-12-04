@@ -1,7 +1,8 @@
 import { useEffect } from "react";
 import { Grid, Container, Button, Box, Typography, Pagination } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
-import { setProducts, setFilter, setShouldRefresh, setCurrentPage } from "../store/productsSlice";
+import { setProducts, setFilter } from "../store/productsSlice";
+import { setShouldRefresh, setCurrentPage } from "../store/utilsSlice";
 import ProductCard from "../components/ProductCard";
 import { useNavigate } from "react-router-dom";
 import { FetchedProduct } from "../types/product";
@@ -10,9 +11,8 @@ import { fetchProducts } from "../api";
 const ProductsPage = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { products, filter, shouldRefresh, currentPage } = useAppSelector(
-    (state) => state.products
-  );
+  const { products, filter } = useAppSelector((state) => state.products);
+  const { shouldRefresh, currentPage } = useAppSelector((state) => state.utils);
   const itemsPerPage = 6;
 
   const handlePagination = (e: React.ChangeEvent<unknown>, page: number) => {
