@@ -2,13 +2,14 @@ import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { Container, Button, TextField, Typography } from "@mui/material";
 import { initialFormValues } from "../types/product";
-import { FormikHelpers } from "formik";
 import { NavigateFunction } from "react-router-dom";
+import { setShouldRefresh } from "../store/utilsSlice";
+import { useAppDispatch } from "../store/hooks";
 
 type ProductFormProps = {
   title: string;
   initialValues: initialFormValues;
-  onSubmit: (values: initialFormValues, { resetForm }: FormikHelpers<initialFormValues>) => void;
+  onSubmit: (values: initialFormValues) => void;
   buttonText: string;
   navigate: NavigateFunction;
 };
@@ -20,6 +21,8 @@ const ProductForm = ({
   buttonText,
   navigate,
 }: ProductFormProps) => {
+  const dispatch = useAppDispatch();
+
   return (
     <Container
       sx={{
@@ -41,7 +44,10 @@ const ProductForm = ({
         variant="contained"
         color="primary"
         style={{ position: "absolute", top: 20, left: 20 }}
-        onClick={() => navigate("/products")}
+        onClick={() => {
+          dispatch(setShouldRefresh(false));
+          navigate("/products");
+        }}
       >
         Назад к списку
       </Button>
@@ -52,7 +58,12 @@ const ProductForm = ({
           description: Yup.string().required("Описание обязательно"),
           image: Yup.string().url("Введите корректный URL").required("URL изображения обязателен"),
         })}
-        onSubmit={onSubmit}
+        onSubmit={(values, { resetForm }) => {
+          onSubmit(values);
+          dispatch(setShouldRefresh(false));
+          resetForm();
+          navigate("/products");
+        }}
       >
         {({ isSubmitting }) => (
           <Form style={{ width: "100%" }}>

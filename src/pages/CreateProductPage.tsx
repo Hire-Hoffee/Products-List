@@ -1,28 +1,20 @@
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../store/hooks";
 import { addProduct } from "../store/productsSlice";
-import { setShouldRefresh } from "../store/utilsSlice";
 import ProductForm from "../components/ProductForm";
-import { FormikHelpers } from "formik";
 import { initialFormValues } from "../types/product";
 
 const CreateProductPage = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const handleSubmit = (
-    values: initialFormValues,
-    { resetForm }: FormikHelpers<initialFormValues>
-  ) => {
+  const handleSubmit = (values: initialFormValues) => {
     const newProduct = {
       ...values,
       id: Date.now(),
       isLiked: false,
     };
     dispatch(addProduct(newProduct));
-    dispatch(setShouldRefresh(false));
-    resetForm();
-    navigate("/products");
   };
 
   return (

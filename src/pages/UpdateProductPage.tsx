@@ -1,9 +1,7 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { useAppSelector, useAppDispatch } from "../store/hooks";
 import { updateProduct } from "../store/productsSlice";
-import { setShouldRefresh } from "../store/utilsSlice";
 import ProductForm from "../components/ProductForm";
-import { FormikHelpers } from "formik";
 import { initialFormValues } from "../types/product";
 
 const UpdateProductPage = () => {
@@ -14,19 +12,13 @@ const UpdateProductPage = () => {
     state.products.products.find((p) => p.id == Number(id))
   );
 
-  const handleSubmit = (
-    values: initialFormValues,
-    { resetForm }: FormikHelpers<initialFormValues>
-  ) => {
+  const handleSubmit = (values: initialFormValues) => {
     const updatedProduct = {
       ...values,
       id: product?.id || 0,
       isLiked: product?.isLiked || false,
     };
     dispatch(updateProduct(updatedProduct));
-    dispatch(setShouldRefresh(false));
-    resetForm();
-    navigate("/products");
   };
 
   return (
