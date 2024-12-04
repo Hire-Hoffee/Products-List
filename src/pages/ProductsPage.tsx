@@ -1,5 +1,14 @@
 import { useEffect } from "react";
-import { Grid, Container, Button, Box, Typography, Pagination } from "@mui/material";
+import {
+  Grid,
+  Container,
+  Button,
+  Box,
+  Typography,
+  Pagination,
+  Autocomplete,
+  TextField,
+} from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { setProducts, setFilter } from "../store/productsSlice";
 import { setShouldRefresh, setCurrentPage } from "../store/utilsSlice";
@@ -64,7 +73,7 @@ const ProductsPage = () => {
       <Box
         sx={{
           backgroundColor: "#eee",
-          padding: "5px",
+          padding: "10px",
           borderRadius: "10px",
           width: "300px",
           display: "flex",
@@ -77,6 +86,14 @@ const ProductsPage = () => {
           Создать
         </Button>
       </Box>
+      <Autocomplete
+        disablePortal
+        options={products}
+        sx={{ width: "300px", marginBottom: "20px" }}
+        renderInput={(params) => <TextField {...params} label="Поиск продукта..." />}
+        getOptionLabel={(option) => option.title}
+        onChange={(e, value) => navigate(`/products/${value?.id}`)}
+      />
       <Grid container spacing={3} bgcolor={"#eee"} borderRadius={"10px"} paddingBottom={"20px"}>
         {paginatedProducts.length === 0 ? (
           <Grid item xs={12}>
