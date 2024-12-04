@@ -13,7 +13,7 @@ const ProductsPage = () => {
   const { products, filter, shouldRefresh } = useAppSelector((state) => state.products);
 
   useEffect(() => {
-    if (!shouldRefresh) {
+    if (!shouldRefresh && products.length > 0) {
       dispatch(setShouldRefresh(true));
       return;
     }

@@ -1,17 +1,38 @@
+import { useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useAppSelector, useAppDispatch } from "../store/hooks";
 import { Container, Typography, Button, CardMedia } from "@mui/material";
-import { setShouldRefresh } from "../store/productsSlice";
+import { setShouldRefresh, setSelectedProduct } from "../store/productsSlice";
+import { fetchOneProduct } from "../api";
 
 const ProductDetailsPage = () => {
   const { id } = useParams<{ id: string }>();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const product = useAppSelector((state) =>
+  const { selectedProduct } = useAppSelector((state) => state.products);
+  const existingProduct = useAppSelector((state) =>
     state.products.products.find((p) => p.id == Number(id))
   );
 
-  if (!product) {
+  useEffect(() => {
+    if (existingProduct) {
+      dispatch(setSelectedProduct(existingProduct));
+      return;
+    }
+    (async () => {
+      const data = await fetchOneProduct(Number(id));
+      const changedData = {
+        id: data.id,
+        title: data.title,
+        description: data.description,
+        image: data.image,
+        isLiked: false,
+      };
+      dispatch(setSelectedProduct(changedData));
+    })();
+  }, []);
+
+  if (!selectedProduct) {
     return (
       <Container>
         <Typography variant="h5">Продукт не найден</Typography>
@@ -51,15 +72,15 @@ const ProductDetailsPage = () => {
         Назад к списку
       </Button>
       <Typography variant="h3" gutterBottom>
-        {product.title}
+        {selectedProduct.title}
       </Typography>
       <CardMedia
         component="img"
-        image={product.image}
-        alt={product.title}
+        image={selectedProduct.image}
+        alt={selectedProduct.title}
         style={{ maxHeight: 400, marginBottom: 20 }}
       />
-      <Typography variant="body1">{product.description}</Typography>
+      <Typography variant="body1">{selectedProduct.description}</Typography>
     </Container>
   );
 };

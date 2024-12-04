@@ -3,6 +3,7 @@ import { Product } from "../types/product";
 
 interface ProductsState {
   products: Product[];
+  selectedProduct?: Product;
   filter: "all" | "liked";
   shouldRefresh?: boolean;
 }
@@ -11,6 +12,7 @@ const initialState: ProductsState = {
   products: [],
   filter: "all",
   shouldRefresh: true,
+  selectedProduct: {} as Product,
 };
 
 const productsSlice = createSlice({
@@ -40,9 +42,19 @@ const productsSlice = createSlice({
     setShouldRefresh(state, action: PayloadAction<boolean>) {
       state.shouldRefresh = action.payload;
     },
+    setSelectedProduct(state, action: PayloadAction<Product>) {
+      state.selectedProduct = action.payload;
+    },
   },
 });
 
-export const { setProducts, toggleLike, deleteProduct, setFilter, addProduct, setShouldRefresh } =
-  productsSlice.actions;
+export const {
+  setProducts,
+  toggleLike,
+  deleteProduct,
+  setFilter,
+  addProduct,
+  setShouldRefresh,
+  setSelectedProduct,
+} = productsSlice.actions;
 export default productsSlice.reducer;
